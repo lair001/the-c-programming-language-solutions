@@ -2,7 +2,6 @@
 
 char charQueue[2];
 int isInsideDoubleQuotes = 0;
-int isInsideSingleQuotes = 0;
 int isInsideSingleLineComment = 0;
 int isInsideMultiLineComment = 0;
 int currentLineLength = 0;
@@ -26,10 +25,14 @@ void enqueue(int c) {
 }
 
 void clear(void) {
+	charQueue[0] = '\0';
+        charQueue[1] = '\0';
+}
+
+void putAndClear(void) {
 	putChar(charQueue[0]);
 	putChar(charQueue[1]);
-	charQueue[0] = '\0';
-	charQueue[1] = '\0';
+	clear();
 }
 
 void checkCharQueue(void) {
@@ -37,13 +40,11 @@ void checkCharQueue(void) {
 		if (charQueue[1] == '/')
 			isInsideSingleLineComment = 
 				isInsideMultiLineComment
-				&& isInsideSingleQuotes
-				&& isInsideDoubleQuotes ? 0 : 1;
+				|| isInsideDoubleQuotes ? 0 : 1;
 		else if (charQueue[1] == '*')
 			isInsideMultiLineComment =
 				isInsideSingleLineComment
-				&& isInsideSingleQuotes
-				&& isInsideDoubleQuotes ? 0 : 1;
+				|| isInsideDoubleQuotes ? 0 : 1;
 	}	
 	else if (charQueue[0] == '*') {
 		if (charQueue[1] == '/') {
@@ -57,15 +58,7 @@ void checkCharQueue(void) {
 		if (charQueue[1] == '"')
 			isInsideDoubleQuotes =
 				isInsideDoubleQuotes
-				&& isInsideSingleQuotes
-				&& isInsideSingleLineComment
-				&& isInsideMultiLineComment ? 0 : 1;
-		else if (charQueue[1] == '\'')
-			isInsideSingleQuotes =
-				isInsideSingleQuotes
-				&& isInsideDoubleQuotes
-				&& isInsideSingleLineComment
-				&& isInsideMultiLineComment ? 0 : 1;
+				|| isInsideComment() ? 0 : 1;
 	}
 	if (isInsideComment()) currentLineHasComment = 1;
 }
@@ -77,11 +70,12 @@ int main() {
 
 	while ((c = getchar()) != EOF) {
 		if (c == '\n') {
-			clear();
+			putAndClear();
 			if (currentLineLength > 0 || !currentLineHasComment) {
 				putchar('\n');
 			}
 			currentLineLength = 0;
+			isInsideSingleLineComment = 0;
 			currentLineHasComment = 0;
 		} else {
 			enqueue(c);
