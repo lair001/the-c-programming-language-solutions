@@ -14,10 +14,12 @@ should appear 103
 "/*" should appear 104 "*/"
 'should appear 105 /*' should not appear 011 '*/ should appear 106'
 '"' should appear 107 /* should not appear 012 */ should appear 108 '"'
+should appear 109 \/* should not appear 013 */ should appear 110
+/* should not appear 014 \*/ should appear 111
 
 /* These are the index ranges.
  * The should not appear labels should not appear.
  * The should appear labels should appear for the
  * entirety of their respective index range. */
-should not appear indexes: 001-012
-should appear indexes: 101-108
+should not appear indexes: 001-014
+should appear indexes: 101-111
