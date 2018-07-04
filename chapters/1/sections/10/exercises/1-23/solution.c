@@ -8,7 +8,7 @@ int isMultiLineComment = 0;
 int currentLineLength = 0;
 int currentLineHasComment = 0;
 
-int isInsideComment(void);
+int isComment(void);
 void putChar(int c);
 void enqueue(int c);
 void clear(void);
@@ -52,12 +52,12 @@ int main() {
 	return 0;
 }
 
-int isInsideComment(void) {
+int isComment(void) {
 	return isSingleLineComment || isMultiLineComment;
 }
 
 void putChar(int c) {
-	if (c != '\0' && !isInsideComment()) {
+	if (c != '\0' && !isComment()) {
 		putchar(c);
 		++currentLineLength;
 	}
@@ -120,7 +120,7 @@ int doesCharQueueHaveCharLiteral(void) {
 }
 
 void openCharLiteral(void) {
-	if (!isInsideComment()) isCharLiteral = 1;
+	if (!isComment()) isCharLiteral = 1;
 }
 
 int doesCharQueueHaveDoubleQuotes(void) {
@@ -130,7 +130,7 @@ int doesCharQueueHaveDoubleQuotes(void) {
 void openOrCloseStringLiteral(void) {
 	isStringLiteral =
 		isStringLiteral
-		|| isInsideComment() ? 0 : 1;
+		|| isComment() ? 0 : 1;
 }
 
 void checkCharQueue(void) {
@@ -143,7 +143,7 @@ void checkCharQueue(void) {
 	else if (doesCharQueueHaveCharLiteral()) openCharLiteral();
 	else if (doesCharQueueHaveDoubleQuotes()) openOrCloseStringLiteral();
 
-	if (isInsideComment()) currentLineHasComment = 1;
+	if (isComment()) currentLineHasComment = 1;
 }
 
 void processChar(int c) {
