@@ -4,7 +4,7 @@ char charQueue[5];
 int isCharLiteral = 0;
 int isStringLiteral = 0;
 int isSingleLineComment = 0;
-int isInsideMultiLineComment = 0;
+int isMultiLineComment = 0;
 int currentLineLength = 0;
 int currentLineHasComment = 0;
 
@@ -53,7 +53,7 @@ int main() {
 }
 
 int isInsideComment(void) {
-	return isSingleLineComment || isInsideMultiLineComment;
+	return isSingleLineComment || isMultiLineComment;
 }
 
 void putChar(int c) {
@@ -86,7 +86,7 @@ int doesCharQueueHaveSingleLineCommentOpening(void) {
 
 void openSingleLineComment(void) {
 	isSingleLineComment =
-		isInsideMultiLineComment
+		isMultiLineComment
 		|| isStringLiteral ? 0 : 1;
 }
 
@@ -95,7 +95,7 @@ int doesCharQueueHaveMultiLineCommentOpening(void) {
 }
 
 void openMultiLineComment(void) {
-	isInsideMultiLineComment =
+	isMultiLineComment =
 		isSingleLineComment
 		|| isStringLiteral ? 0 : 1;
 }
@@ -105,8 +105,8 @@ int doesCharQueueHaveMultiLineCommentClosing(void) {
 }
 
 void closeMultiLineComment(void) {
-	if (isInsideMultiLineComment) {
-		isInsideMultiLineComment = 0;
+	if (isMultiLineComment) {
+		isMultiLineComment = 0;
 		charQueue[0] = '\0';
 		charQueue[1] = '\0';
 	}
