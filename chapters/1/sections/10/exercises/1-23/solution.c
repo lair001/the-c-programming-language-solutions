@@ -3,7 +3,7 @@
 char charQueue[5];
 int isCharLiteral = 0;
 int isStringLiteral = 0;
-int isInsideSingleLineComment = 0;
+int isSingleLineComment = 0;
 int isInsideMultiLineComment = 0;
 int currentLineLength = 0;
 int currentLineHasComment = 0;
@@ -39,7 +39,7 @@ int main() {
 				putchar('\n');
 			}
 			currentLineLength = 0;
-			isInsideSingleLineComment = 0;
+			isSingleLineComment = 0;
 			isCharLiteral = 0;
 			currentLineHasComment = 0;
 		} else {
@@ -53,7 +53,7 @@ int main() {
 }
 
 int isInsideComment(void) {
-	return isInsideSingleLineComment || isInsideMultiLineComment;
+	return isSingleLineComment || isInsideMultiLineComment;
 }
 
 void putChar(int c) {
@@ -85,7 +85,7 @@ int doesCharQueueHaveSingleLineCommentOpening(void) {
 }
 
 void openSingleLineComment(void) {
-	isInsideSingleLineComment =
+	isSingleLineComment =
 		isInsideMultiLineComment
 		|| isStringLiteral ? 0 : 1;
 }
@@ -96,7 +96,7 @@ int doesCharQueueHaveMultiLineCommentOpening(void) {
 
 void openMultiLineComment(void) {
 	isInsideMultiLineComment =
-		isInsideSingleLineComment
+		isSingleLineComment
 		|| isStringLiteral ? 0 : 1;
 }
 
