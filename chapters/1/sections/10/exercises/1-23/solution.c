@@ -2,7 +2,7 @@
 
 char charQueue[5];
 int isCharLiteral = 0;
-int isInsideDoubleQuotes = 0;
+int isStringLiteral = 0;
 int isInsideSingleLineComment = 0;
 int isInsideMultiLineComment = 0;
 int currentLineLength = 0;
@@ -87,7 +87,7 @@ int doesCharQueueHaveSingleLineCommentOpening(void) {
 void openSingleLineComment(void) {
 	isInsideSingleLineComment =
 		isInsideMultiLineComment
-		|| isInsideDoubleQuotes ? 0 : 1;
+		|| isStringLiteral ? 0 : 1;
 }
 
 int doesCharQueueHaveMultiLineCommentOpening(void) {
@@ -97,7 +97,7 @@ int doesCharQueueHaveMultiLineCommentOpening(void) {
 void openMultiLineComment(void) {
 	isInsideMultiLineComment =
 		isInsideSingleLineComment
-		|| isInsideDoubleQuotes ? 0 : 1;
+		|| isStringLiteral ? 0 : 1;
 }
 
 int doesCharQueueHaveMultiLineCommentClosing(void) {
@@ -128,8 +128,8 @@ int doesCharQueueHaveDoubleQuotes(void) {
 }
 
 void openOrCloseStringLiteral(void) {
-	isInsideDoubleQuotes =
-		isInsideDoubleQuotes
+	isStringLiteral =
+		isStringLiteral
 		|| isInsideComment() ? 0 : 1;
 }
 
