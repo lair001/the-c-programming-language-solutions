@@ -1,0 +1,16 @@
+FF
+8
+
+1234ABCD
+547
+0x99
+-0x99
+
+ABCDEF
+
+
+0x
+-0X
+
+0XAAA
+bbe
